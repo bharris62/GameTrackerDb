@@ -34,12 +34,24 @@ public class Main {
         return games;
     }
 
-    public static void updateGame(Connection conn) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM games;");
-        ResultSet results = stmt.executeQuery();
+    public static void deleteGame(Connection conn, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM games WHERE id=?;");
+        stmt.setInt(1,id);
+        stmt.execute();
     }
 
-    static ArrayList<Game> games = new ArrayList<>();
+    public static void updateGame(Connection conn, String game_name, String genre, String platform, int game_year, int updateNum) throws  SQLException {
+        PreparedStatement stmt = conn.prepareStatement("UPDATE games SET game_name = ?, genre=?, platform=?, release_year=? WHERE id=?");
+        stmt.setString(1, game_name);
+        stmt.setString(2,genre);
+        stmt.setString(3,platform);
+        stmt.setInt(4,game_year);
+        stmt.setInt(5,updateNum);
+
+        stmt.execute();
+    }
+
+
     public static void main(String[] args) throws SQLException {
         Server.createWebServer().start();
         Connection conn = DriverManager.getConnection("jdbc:h2:./main");
@@ -67,6 +79,24 @@ public class Main {
 
             response.redirect("/");
 
+            return "";
+        });
+
+        Spark.post("/delete", (request, response)->{
+            int id = Integer.parseInt(request.queryParams("deleteItem"));
+            deleteGame(conn, id);
+            response.redirect("/");
+            return "";
+        });
+
+        Spark.post("/update-game", (request, response)->{
+            String gameName = request.queryParams("gameName");
+            String gameGenre = request.queryParams("gameGenre");
+            String platform = request.queryParams("platform");
+            int gameYear = Integer.parseInt(request.queryParams("gameYear"));
+            int toUpdate = Integer.parseInt(request.queryParams("updateNumber"));
+            updateGame(conn, gameName, gameGenre, platform, gameYear, toUpdate);
+            response.redirect("/");
             return "";
         });
 

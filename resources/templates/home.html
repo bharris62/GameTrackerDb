@@ -25,10 +25,32 @@
     <input type="number" placeholder="Release Year" name="gameYear" />
     <button type="submit">Submit</button>
 </form>
-<ol>
+<form action="/update-game" method="post">
+    <input type="text" placeholder="Game name" name="gameName" width="200" />
+    <select name="gameGenre">
+        <option selected disabled>Genre</option>
+        <option value="adventure">Adventure</option>
+        <option value="rpg">RPG</option>
+        <option value="strategy">Strategy</option>
+        <option value="shooter">Shooter</option>
+    </select>
+    <select name="platform">
+        <option select disabled>Platform</option>
+        <option value="pc">PC</option>
+        <option value="ps4">PS4</option>
+        <option value="xbone">Xbox One</option>
+        <option value="wiiu">Wii U</option>
+    </select>
+    <input type="number" placeholder="Release Year" name="gameYear" />
+    <input type="number" placeholder="To Update" name="updateNumber" width="10" />
+    <button type="submit">Update</button>
+</form>
+<form action="/delete" method="post">
+    <input type="number" placeholder="Number to delete" name="deleteItem">
+    <button type="submit">Delete</button>
+</form>
     {{#.}}
-        <li>{{name}} - {{genre}} - {{platform}} - {{releaseYear}}</li>
+        {{id}}: {{name}} - {{genre}} - {{platform}} - {{releaseYear}} <br/>
     {{/.}}
-</ol>
 </body>
 </html>
