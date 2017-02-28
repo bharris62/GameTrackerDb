@@ -6,9 +6,6 @@
 </head>
 <body>
 
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
 <form action="/create-game" method="post">
     <input type="text" placeholder="Game name" name="gameName" width="200" />
     <select name="gameGenre">
@@ -29,9 +26,9 @@
     <button type="submit">Submit</button>
 </form>
 <ol>
-    {{#games}}
+    {{#.}}
         <li>{{name}} - {{genre}} - {{platform}} - {{releaseYear}}</li>
-    {{/games}}
+    {{/.}}
 </ol>
 </body>
 </html>
